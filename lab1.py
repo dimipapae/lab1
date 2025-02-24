@@ -1,4 +1,5 @@
 import requests  # εισαγωγή της βιβλιοθήκης
+import datetime
 
 def more(text):
     count = 0
@@ -16,12 +17,27 @@ with requests.get(url) as response:  # το αντικείμενο response
     html = response.text
     more(html)
 '''
-
+# 1. παιρνει url απο τον χρηστη
 url=input("Give url:\t")
-print(url)
 
 if not url.startswith('https://'):
     url='https://' + url
 
+print(url)
+
+# 2.Πραγματοποιηση αιτηματος http request
 with requests.get(url) as response:
-    print(response.text)
+    # 3. headers 
+    headers=response.headers
+    for key in headers:
+        print(f"{key}:{headers[key]}")
+    
+    print(f"Software of the Server: {response.headers.get('Server')}")
+
+    # 4. Πληροφοριες για την ιστοσελιδα
+    if "set-cookie" in headers.keys():
+        cookies = response.cookies
+        for cookie in cookies:
+            print(f"\nThe site uses cookie.\nName: {cookie.name}\nValue: {cookie.value}\nExpiration Date: {datetime.datetime.fromtimestamp(float(cookie.expires)) if cookie.expires is not None else 'Does Not Expire'}")        
+    else:
+        print('\nThe site does not use cookies')
