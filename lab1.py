@@ -20,5 +20,8 @@ with requests.get(url) as response:  # το αντικείμενο response
 url=input("Give url:\t")
 print(url)
 
+if not url.startswith('https://'):
+    url='https://' + url
+
 with requests.get(url) as response:
     print(response.text)
