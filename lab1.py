@@ -19,3 +19,6 @@ with requests.get(url) as response:  # το αντικείμενο response
 
 url=input("Give url:\t")
 print(url)
+
+with requests.get(url) as response:
+    print(response.text)
